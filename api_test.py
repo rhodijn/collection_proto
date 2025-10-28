@@ -14,7 +14,7 @@
 # this script generates a friendly list of titles, authors (including editions) from a list of barcodes
 
 
-import json, os
+import os
 import pandas as pd
 
 from dotenv import dotenv_values
@@ -49,30 +49,29 @@ df_rp_loeschen['barcode'] = df_rp_loeschen['barcode'].str.upper()
 
 
 for i, el in enumerate(df_rp_loeschen['barcode']):
-    req, get_item_info = api_request(SECRETS['API_URL'], SECRETS['API_KEY'], 'get', el, 'json', 'items?item_barcode=')
-    data = json.loads(get_item_info.content.decode(encoding='utf-8'))
+    item_info = api_request(SECRETS['API_URL'], SECRETS['API_KEY'], 'get', el, 'json', 'items?item_barcode=')
     try:
-        df_rp_loeschen.loc[i, 'call_number'] = data['holding_data']['call_number']
+        df_rp_loeschen.loc[i, 'call_number'] = item_info['holding_data']['call_number']
     except Exception as e:
         df_rp_loeschen.loc[i, 'call_number'] = e
     try:
-        df_rp_loeschen.loc[i, 'title'] = data['bib_data']['title']
+        df_rp_loeschen.loc[i, 'title'] = item_info['bib_data']['title']
     except Exception as e:
         df_rp_loeschen.loc[i, 'title'] = e
     try:
-        df_rp_loeschen.loc[i, 'author'] = data['bib_data']['author']
+        df_rp_loeschen.loc[i, 'author'] = item_info['bib_data']['author']
     except Exception as e:
         df_rp_loeschen.loc[i, 'author'] = e
     try:
-        df_rp_loeschen.loc[i, 'isbn'] = data['bib_data']['isbn']
+        df_rp_loeschen.loc[i, 'isbn'] = item_info['bib_data']['isbn']
     except Exception as e:
         df_rp_loeschen.loc[i, 'isbn'] = e
     try:
-        df_rp_loeschen.loc[i, 'complete_edition'] = data['bib_data']['complete_edition']
+        df_rp_loeschen.loc[i, 'complete_edition'] = item_info['bib_data']['complete_edition']
     except Exception as e:
         df_rp_loeschen.loc[i, 'complete_edition'] = e
     try:
-        df_rp_loeschen.loc[i, 'date_of_publication'] = data['bib_data']['date_of_publication']
+        df_rp_loeschen.loc[i, 'date_of_publication'] = item_info['bib_data']['date_of_publication']
     except Exception as e:
         df_rp_loeschen.loc[i, 'date_of_publication'] = e
 
