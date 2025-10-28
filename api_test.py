@@ -23,7 +23,7 @@ from modules.apihandler import *
 
 SECRETS = dotenv_values('.env')
 
-barcodes = []
+barcodes : list = []
 delim = ';'
 files = []
 filepath = 'files'
