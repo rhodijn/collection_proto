@@ -30,8 +30,8 @@ filepath = 'files'
 
 
 # scan folder and exclude subfolders
-files = os.listdir(f"{filepath}/")
-files = [f for f in files if os.path.isfile(f"{filepath}/{f}")]
+files = os.listdir(f"{filepath}/input")
+files = [f for f in files if os.path.isfile(f"{filepath}/input/{f}")]
 
 
 # find the first csv-file in the folder
@@ -44,7 +44,7 @@ print(f"File: {files[ind]}")
 
 
 # generate datafrome from csv-file, capitalize the barccode column
-df_rp_loeschen = pd.DataFrame(pd.read_csv(f"{filepath}/{files[ind]}", dtype=str, sep=delim))
+df_rp_loeschen = pd.DataFrame(pd.read_csv(f"{filepath}/input/{files[ind]}", dtype=str, sep=delim))
 df_rp_loeschen['barcode'] = df_rp_loeschen['barcode'].str.upper()
 
 
@@ -77,6 +77,6 @@ for i, el in enumerate(df_rp_loeschen['barcode']):
         df_rp_loeschen.loc[i, 'date_of_publication'] = e
 
 try:
-    df_rp_loeschen.to_csv(f"{filepath}/output.csv", sep=delim)
+    df_rp_loeschen.to_csv(f"{filepath}/output/output.csv", sep=delim)
 except Exception as e:
     print(f"an error occurred: {e}")
