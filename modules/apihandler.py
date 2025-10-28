@@ -11,12 +11,9 @@
 
 
 import requests
-from dotenv import dotenv_values
-
-SECRETS = dotenv_values('.env')
 
 
-def api_request(method: str, value: str, frmt: str, par_1: str, par_2='') -> tuple:
+def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, par_1: str, par_2='') -> tuple:
     """
     perform an api request and return the answer
 
@@ -30,9 +27,13 @@ def api_request(method: str, value: str, frmt: str, par_1: str, par_2='') -> tup
     returns:
     tuple = (req: str, response: requests.models.Response)
     """
+    req = False
     resp = False
 
     if method == 'get':
-        req = f"{SECRETS['API_URL']}{par_1}{value}{par_2}&apikey={SECRETS['API_KEY']}&format={frmt}"
-        resp = requests.get(req)
+        try:
+            req = f"{api_url}{par_1}{value}{par_2}&apikey={api_key}&format={frmt}"
+            resp = requests.get(req)
+        except Exception as e:
+            resp = e
     return req, resp
