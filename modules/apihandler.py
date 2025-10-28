@@ -50,5 +50,4 @@ def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, 
 
     df_log.loc[len(df_log)] = {'api_call':req, 'response':resp}
     df_log.to_csv(f"{filepath}/logfile.csv", sep=delim, index=False, header=True)
-
     return data
