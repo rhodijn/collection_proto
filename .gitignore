@@ -1,3 +1,4 @@
 #ignore
 .env
+files/*
 modules/__pycache__
