@@ -47,6 +47,8 @@ def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, 
             data = resp.json()
         except Exception as e:
             resp = e
+
     df_log.loc[len(df_log)] = {'api_call': req, 'response': resp}
     df_log.to_csv(f"{filepath}/logfile.csv", sep=delim)
+
     return data
