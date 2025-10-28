@@ -36,7 +36,7 @@ def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, 
 
     
     try:
-        df_log = pd.read_csv(f"{filepath}/logfile.csv", names=column_names)
+        df_log = pd.DataFrame(pd.read_csv(f"{filepath}/logfile.csv", dtype=str, sep=delim))
     except:
         df_log = pd.DataFrame(columns=column_names)
 
@@ -48,7 +48,7 @@ def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, 
         except Exception as e:
             resp = e
 
-    df_log.loc[len(df_log)] = {'api_call': req, 'response': resp}
-    df_log.to_csv(f"{filepath}/logfile.csv", sep=delim)
+    df_log.loc[len(df_log)] = {'api_call':req, 'response':resp}
+    df_log.to_csv(f"{filepath}/logfile.csv", sep=delim, index=False, header=True)
 
     return data
