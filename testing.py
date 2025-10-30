@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 
 def suche_isbn(isbn):
     # construct the search url
-    url = f"https://www.lehmanns.de/search?q={isbn}"
+    url = f"https://www.google.com/search?q={isbn}&udm=14"
 
     # define the header
     headers = {
