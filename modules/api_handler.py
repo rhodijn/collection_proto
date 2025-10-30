@@ -14,7 +14,7 @@ import requests
 import pandas as pd
 
 
-def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, par_1: str, par_2='') -> dict:
+def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, par_1: str, par_2='', log=True) -> dict:
     """
     perform an api request and return the answer
 
@@ -28,17 +28,18 @@ def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, 
     returns:
     data: dict = {}
     """
-    column_names = ['api_call', 'status_code']
-    delim = ';'
-    filepath = 'files/log'
     req = False
     resp = False
 
-    
-    try:
-        df_log = pd.DataFrame(pd.read_csv(f"{filepath}/logfile.csv", dtype=str, sep=delim))
-    except:
-        df_log = pd.DataFrame(columns=column_names)
+    if log:
+        column_names = ['api_call', 'status_code']
+        delim = ';'
+        filepath = 'files/log'
+
+        try:
+            df_log = pd.DataFrame(pd.read_csv(f"{filepath}/log_apihandler.csv", dtype=str, sep=delim))
+        except:
+            df_log = pd.DataFrame(columns=column_names)
 
     if method == 'get':
         try:
@@ -48,6 +49,8 @@ def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, 
         except Exception as e:
             resp = e
 
-    df_log.loc[len(df_log)] = {'api_call':req, 'status_code': resp.status_code}
-    df_log.to_csv(f"{filepath}/logfile.csv", sep=delim, index=False, header=True)
+    if log:
+        df_log.loc[len(df_log)] = {'api_call':req, 'status_code': resp.status_code}
+        df_log.to_csv(f"{filepath}/log_apihandler.csv", sep=delim, index=False, header=True)
+
     return data

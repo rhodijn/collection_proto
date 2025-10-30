@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 #   ###################
 #   ##                 ##
 #   ##               ##
@@ -10,16 +9,13 @@
 #   ##                 ##
 #     ###################
 
-
 # this script generates a friendly list of titles, authors (including editions) from a list of barcodes
 
 
 import os
 import pandas as pd
-
 from dotenv import dotenv_values
-from modules.apihandler import *
-
+from modules.api_handler import *
 
 SECRETS = dotenv_values('.env')
 
