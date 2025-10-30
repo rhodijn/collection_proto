@@ -28,7 +28,7 @@ def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, 
     returns:
     data: dict = {}
     """
-    column_names = ['api_call', 'response']
+    column_names = ['api_call', 'status_code']
     delim = ';'
     filepath = 'files/log'
     req = False
@@ -48,6 +48,6 @@ def api_request(api_url: str, api_key: str, method: str, value: str, frmt: str, 
         except Exception as e:
             resp = e
 
-    df_log.loc[len(df_log)] = {'api_call':req, 'response':resp}
+    df_log.loc[len(df_log)] = {'api_call':req, 'status_code': resp.status_code}
     df_log.to_csv(f"{filepath}/logfile.csv", sep=delim, index=False, header=True)
     return data
